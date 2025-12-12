@@ -25,17 +25,18 @@ async function start() {
     app.use('/api/sessions', sessionRoutes);
 
     // ⭐ Serve Vite frontend in production
-    if (process.env.NODE_ENV === 'production') {
-      const frontendPath = path.join(__dirname, '../frontend/dist');
-      console.log("Serving frontend from:", frontendPath);
+    // ⭐ Serve Vite frontend in production
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.resolve(__dirname, '../frontend/dist');
+  console.log("Serving frontend from:", frontendPath);
 
-      app.use(express.static(frontendPath));
+  app.use(express.static(frontendPath));
 
-      // Wildcard must be last
-      app.get('*', (req, res) => {
-        res.sendFile(path.join(frontendPath, 'index.html'));
-      });
-    }
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
+
 
     // DO NOT override frontend with this.
     // If you want a root route, only use in dev:
