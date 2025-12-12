@@ -1,12 +1,21 @@
+// backend/config/db.js
 const mongoose = require('mongoose');
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/mentoring_db';
 
-module.exports = async function connectDB(){
-  try{
-    await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const connectDB = async () => {
+  const uri = process.env.MONGO_URI;
+  if (!uri) {
+    throw new Error('MONGO_URI environment variable not set');
+  }
+  try {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
     console.log('MongoDB connected');
-  } catch(err){
-    console.error('MongoDB connection error:', err.message);
-    process.exit(1);
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    throw err;
   }
 };
+
+module.exports = connectDB;
