@@ -13,6 +13,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+console.log("NODE_ENV is:", process.env.NODE_ENV);
+
 // connect to DB and start server
 const PORT = process.env.PORT || 5000;
 
